@@ -18,7 +18,7 @@ let "ROOTFS_DATA_MTD_SIZE=$FLASH_SIZE-$ROOTFS_MTD_SIZE-$KERNEL_MTD_SIZE-$ENV_MTD
 append_zeroes () {
     FILESIZE=$(stat -c%s $1)
     let "ZEROS_SIZE=$2 - $FILESIZE"
-    dd conv=sync if=/dev/zero bs=1 count=$ZEROS_SIZE >> $1
+    dd conv=sync if=/dev/zero bs=$ZEROS_SIZE count=1 >> $1
 }
 
 remove_mtd_files() {
