@@ -1,9 +1,10 @@
 #!/bin/bash
 
+INPUT_MODEL="20dv200"
 # input files
-INPUT_BOOT_FILE="u-boot_merged.bin"
-INPUT_KERNEL_FILE="openwrt-hi35xx-20dv200-default-uImage"
-INPUT_ROOTFS_FILE="openwrt-hi35xx-20dv200-default-root.squashfs"
+INPUT_BOOT_FILE="openwrt-hi35xx-${INPUT_MODEL}-u-boot.bin"
+INPUT_KERNEL_FILE="openwrt-hi35xx-${INPUT_MODEL}-default-uImage"
+INPUT_ROOTFS_FILE="openwrt-hi35xx-${INPUT_MODEL}-default-root.squashfs"
 
 # flash layout
 let "FLASH_SIZE=8*1024*1024"
@@ -17,7 +18,7 @@ let "ROOTFS_DATA_MTD_SIZE=$FLASH_SIZE-$ROOTFS_MTD_SIZE-$KERNEL_MTD_SIZE-$ENV_MTD
 append_zeroes () {
     FILESIZE=$(stat -c%s $1)
     let "ZEROS_SIZE=$2 - $FILESIZE"
-    dd if=/dev/zero bs=1 count=$ZEROS_SIZE >> $1
+    dd conv=sync if=/dev/zero bs=1 count=$ZEROS_SIZE >> $1
 }
 
 remove_mtd_files() {
